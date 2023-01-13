@@ -18,7 +18,6 @@ async function traerEquipos(equiposJSON){
 
 
 module.exports = {
-    traerEquipos,
-    readFile
+    traerEquipos
 }
 
