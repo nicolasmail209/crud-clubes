@@ -22,7 +22,5 @@ app.get("/", (req, res) => {
   })();
 });
 
-
-
 app.listen(PUERTO);
 console.log("Corriendo...");
