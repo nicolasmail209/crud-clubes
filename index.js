@@ -73,6 +73,50 @@ app.post("/equipos/equipo", (req, res) => {
   })();
 });
 
+app.put("/equipos/equipo", (req, res) => {
+  (async function () {
+    try {
+      const equipo = {
+        id: req.body.id,
+        area: req.body.area,
+        activeCompetitions: req.body.activeCompetitions,
+        name: req.body.name,
+        shortName: req.body.shortName,
+        tla: req.body.tla,
+        crestUrl: req.body.crestUrl,
+        address: req.body.address,
+        phone: req.body.phone,
+        website: req.body.website,
+        email: req.body.email,
+        founded: req.body.founded,
+        clubColors: req.body.clubColors,
+        venue: req.body.venue,
+        squad: req.body.squad,
+        lastUpdated: req.body.lastUpdated,
+      };
+
+      let equipoCadena = await servicios.leerArchivo(
+        `datos/equipos/${equipo.tla}.json`
+      );
+
+      const equipoObjeto = JSON.parse(equipoCadena);
+      for (const key in equipoObjeto) {
+        equipoObjeto[key] = equipo[key];
+      }
+      equipoCadena = JSON.stringify(equipoObjeto);
+      await servicios.escribirArchivo(
+        `datos/equipos/${equipo.tla}.json`,
+        equipoCadena
+      );
+
+      res.end(equipoCadena);
+    } catch (err) {
+      res.status(500);
+      res.end("Hubo un error en el servidor");
+      console.log("Hubo un error en el try del post: " + err);
+    }
+  })();
+});
 
 app.listen(PUERTO);
 console.log("Corriendo...");
