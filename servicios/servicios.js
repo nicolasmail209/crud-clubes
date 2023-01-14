@@ -9,7 +9,7 @@ async function leerArchivo(equiposJSON) {
     const equipos = await leerArchivoPromisificada(equiposJSON, "utf-8");
     return equipos;
   } catch (err) {
-    console.log("Hubo un error en la funcion traerEquipos: " + err);
+    console.log("Hubo un error en la funcion leerArchivo: " + err);
     return err;
   }
 }
@@ -20,7 +20,7 @@ async function escribirArchivo(equiposJSON, datos){
     return;
   }
   catch(err){
-    console.log("Hubo un error en la funcion guardarEquipos " + err);
+    console.log("Hubo un error en la funcion escribirArchivo " + err);
     throw err;
   }
 }
