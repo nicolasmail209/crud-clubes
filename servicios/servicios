@@ -1,11 +1,12 @@
 const fs = require("fs");
 const util = require("util");
 
-const readFile = util.promisify(fs.readFile);
+const leerArchivo = util.promisify(fs.readFile);
+const escribirArchivo = util.promisify(fs.writeFile);
 
 async function traerEquipos(equiposJSON) {
   try {
-    const equipos = await readFile(equiposJSON, "utf-8");
+    const equipos = await leerArchivo(equiposJSON, "utf-8");
     return equipos;
   } catch (err) {
     console.log("Hubo un error en la funcion traerEquipos: " + err);
@@ -13,6 +14,18 @@ async function traerEquipos(equiposJSON) {
   }
 }
 
+async function guardarEquipos(equiposJSON, datos){
+  try{
+    await escribirArchivo(equiposJSON, datos);
+    return;
+  }
+  catch(err){
+    console.log("Hubo un error en la funcion guardarEquipos" + err);
+    throw err;
+  }
+}
+
 module.exports = {
   traerEquipos,
+  guardarEquipos
 };
