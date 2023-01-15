@@ -23,6 +23,23 @@ app.get("/equipos", (req, res) => {
   })();
 });
 
+app.delete("/equipos", (req, res) => {
+  (async function () {
+    try {
+      const equipo = {
+        tla: req.body.tla,
+      };
+      await servicios.borrarArchivo(`datos/equipos/${equipo.tla}.json`);
+      await servicios.actualizarTabla("datos/equipos");
+      res.end(JSON.stringify(equipo));
+    } catch (err) {
+      res.status(500);
+      res.end("Hubo un error en el servidor");
+      console.log("Hubo un error en el try del delete: " + err);
+    }
+  })();
+});
+
 app.get("/equipos/:tla", (req, res) => {
   (async function () {
     try {
