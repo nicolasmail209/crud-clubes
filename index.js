@@ -172,6 +172,23 @@ app.patch("/equipos/equipo", (req, res) => {
 });
 
 
+app.delete("/equipos/equipo", (req, res) => {
+  (async function () {
+    try {
+      const equipo = {
+        tla: req.body.tla,
+      };
+      await servicios.borrarArchivo(`datos/equipos/${equipo.tla}.json`);
+      res.end(JSON.stringify(equipo));
+    } catch (err) {
+      res.status(500);
+      res.end("Hubo un error en el servidor");
+      console.log("Hubo un error en el try del delete: " + err);
+    }
+  })();
+});
+
+
 app.listen(PUERTO);
 console.log("Corriendo...");
 
