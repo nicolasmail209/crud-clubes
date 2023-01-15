@@ -66,6 +66,7 @@ app.post("/equipos/equipo", (req, res) => {
         `datos/equipos/${equipo.tla}.json`,
         equipoCadena
       );
+      await servicios.actualizarTabla("datos/equipos");
       res.end(equipoCadena);
     } catch (err) {
       res.status(500);
@@ -110,7 +111,7 @@ app.put("/equipos/equipo", (req, res) => {
         `datos/equipos/${equipo.tla}.json`,
         equipoCadena
       );
-
+      await servicios.actualizarTabla("datos/equipos");
       res.end(equipoCadena);
     } catch (err) {
       res.status(500);
@@ -161,7 +162,7 @@ app.patch("/equipos/equipo", (req, res) => {
         `datos/equipos/${equipo.tla}.json`,
         equipoCadena
       );
-
+      await servicios.actualizarTabla("datos/equipos");
       res.end(equipoCadena);
     } catch (err) {
       res.status(500);
@@ -179,6 +180,7 @@ app.delete("/equipos/equipo", (req, res) => {
         tla: req.body.tla,
       };
       await servicios.borrarArchivo(`datos/equipos/${equipo.tla}.json`);
+      await servicios.actualizarTabla("datos/equipos");
       res.end(JSON.stringify(equipo));
     } catch (err) {
       res.status(500);
