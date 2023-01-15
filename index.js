@@ -45,6 +45,7 @@ app.post("/equipos/equipo", (req, res) => {
       const equipo = {
         id: req.body.id,
         area: req.body.area,
+        activeCompetitions: req.body.activeCompetitions,
         name: req.body.name,
         shortName: req.body.shortName,
         tla: req.body.tla,
@@ -56,6 +57,7 @@ app.post("/equipos/equipo", (req, res) => {
         founded: req.body.founded,
         clubColors: req.body.clubColors,
         venue: req.body.venue,
+        squad: req.body.squad,
         lastUpdated: req.body.lastUpdated,
       };
 
@@ -120,3 +122,4 @@ app.put("/equipos/equipo", (req, res) => {
 
 app.listen(PUERTO);
 console.log("Corriendo...");
+
