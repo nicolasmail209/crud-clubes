@@ -32,6 +32,7 @@ async function borrarArchivo(equiposJSON) {
     return;
   } catch (err) {
     console.log("Hubo un error en la funcion borrarArchivo " + err);
+    throw err;
   }
 }
 
