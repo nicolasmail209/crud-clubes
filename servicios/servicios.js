@@ -69,6 +69,7 @@ async function actualizarTabla(directorio) {
     return;
   } catch (err) {
     console.log("Hubo un error en la funcion actualizarTabla " + err);
+    throw err;
   }
 }
 
