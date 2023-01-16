@@ -1,9 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const servicios = require("./servicios/servicios");
 const endpoints = require("./endpoints/endpoints");
 
 const PUERTO = 8080;
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
