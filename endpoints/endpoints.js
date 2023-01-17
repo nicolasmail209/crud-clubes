@@ -17,7 +17,7 @@ async function deleteEquipos(req, res) {
     const equipo = {
       tla: req.body.tla,
     };
-    await servicios.borrarArchivo(`datos/equipo/${equipo.tla}.json`);
+    await servicios.borrarArchivo(`datos/equipos/${equipo.tla}.json`);
     await servicios.actualizarTabla("datos/equipos");
     res.end(JSON.stringify(equipo));
   } catch (err) {
