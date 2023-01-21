@@ -1,3 +1,3 @@
-import { getEquipos } from './endpoints/endpoints.js';
+import { getEquipos } from './endpoints/getDeleteEquipos.js';
 
 getEquipos();
