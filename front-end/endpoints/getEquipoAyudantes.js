@@ -1,13 +1,4 @@
-/*
-getEquipo(tla){
 
-  equipo = traerEquipo(tla);
-  datosEquipo = extraerDatos(equipo);
-  formularioEquipo = crearFormulario(datosEquipo);
-  mostrar(formularioEquipo);
-
-}
-*/
 function traerEquipo(tla) {
   return fetch(`http://localhost:8080/equipos/${tla}`)
     .then((response) => response.json())
