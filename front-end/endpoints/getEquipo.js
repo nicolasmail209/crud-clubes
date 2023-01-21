@@ -1,10 +1,10 @@
-import { traerEquipo, extraerDatos } from './getEquipoAyudantes.js';
+import { traerEquipo, extraerDatos, crearFormulario, mostrarFormulario } from './getEquipoAyudantes.js';
 
 async function getEquipo(tla) {
     const equipo = await traerEquipo(tla);
     const datosEquipo = extraerDatos(equipo);
-
-    console.log(datosEquipo);
+    crearFormulario(datosEquipo)
+    
   }
 
 export { getEquipo };
