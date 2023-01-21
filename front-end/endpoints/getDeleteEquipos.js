@@ -1,4 +1,5 @@
-import { seleccionarAccion, extraerValores, limpiarTabla } from './funcionesDeAyuda.js';
+import { extraerValores, extraerValoresEquipo, limpiarTablaEquipos } from './getDeleteEquiposAyudantes.js';
+import { seleccionarAccion } from './selector.js';
 
 async function getEquipos() {
   function traerEquipos() {
@@ -9,7 +10,7 @@ async function getEquipos() {
 
   function crearTabla(equipos) {
     const $tablaEquipos = document.querySelector("#tablaEquipos");
-    limpiarTabla();
+    limpiarTablaEquipos();
     
     equipos.forEach((equipo) => {
       const $tr = document.createElement("tr");
@@ -56,6 +57,7 @@ async function deleteEquipos(tla) {
       console.error("Error:", error);
     });
 }
+
 
 
 export { getEquipos, deleteEquipos };
