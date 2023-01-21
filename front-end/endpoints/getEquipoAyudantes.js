@@ -104,6 +104,5 @@ function crearFormulario(datosEquipo) {
   return;
 }
 
-function mostrarFormulario() {}
 
 export { traerEquipo, extraerDatos, crearFormulario };
