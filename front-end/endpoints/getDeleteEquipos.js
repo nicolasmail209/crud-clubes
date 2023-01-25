@@ -9,6 +9,9 @@ async function getEquipos() {
   }
 
   function crearTabla(equipos) {
+    const $crearEquipo = document.querySelector("#crearEquipo");
+    $crearEquipo.onclick = seleccionarAccion;
+    
     const $tablaEquipos = document.querySelector("#tablaEquipos");
     limpiarTablaEquipos();
     
