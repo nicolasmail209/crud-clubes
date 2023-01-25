@@ -1,4 +1,3 @@
-
 function traerEquipo(tla) {
   return fetch(`http://localhost:8080/equipos/${tla}`)
     .then((response) => response.json())
@@ -48,13 +47,12 @@ function extraerDatos(equipo) {
 }
 
 function crearFormulario(datosEquipo) {
-    const $listaEquipo = document.querySelector("#listaEquipo");
-  
+  const $listaEquipo = document.querySelector("#listaEquipo");
+
   while ($listaEquipo.firstChild) {
     $listaEquipo.removeChild($listaEquipo.firstChild);
   }
 
-  
   for (const propiedad in datosEquipo) {
     if (propiedad === "activeCompetitions") {
       for (const competencia of datosEquipo["activeCompetitions"]) {
@@ -90,6 +88,26 @@ function crearFormulario(datosEquipo) {
       }
       continue;
     }
+    if (propiedad === "crestUrl") {
+      const $li = document.createElement("li");
+      const $label = document.createElement("label");
+      $label.innerText = propiedad;
+      const $input = document.createElement("input");
+      $input.type = "text";
+      $input.id = propiedad;
+      $input.value = datosEquipo[propiedad];
+      
+      const $img = document.createElement("img");
+      $img.setAttribute("src", `../../datos/${datosEquipo[propiedad]}`);
+      //$img.setAttribute("height", "30");
+      //$img.setAttribute("width", "30");
+
+      $li.appendChild($label);
+      $li.appendChild($input);
+      $li.appendChild($img);
+      $listaEquipo.appendChild($li);
+      continue;
+    }
     const $li = document.createElement("li");
     const $label = document.createElement("label");
     $label.innerText = propiedad;
@@ -103,6 +121,5 @@ function crearFormulario(datosEquipo) {
   }
   return;
 }
-
 
 export { traerEquipo, extraerDatos, crearFormulario };
