@@ -67,7 +67,7 @@ async function postEquipo(req, res) {
       `datos/equipos/${equipo.tla}.json`,
       equipoCadena
     );
-    await servicios.actualizarTabla("datos/equipo");
+    await servicios.actualizarTabla("datos/equipos");
     res.end(equipoCadena);
   } catch (err) {
     res.status(500);
