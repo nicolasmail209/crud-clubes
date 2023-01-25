@@ -21,7 +21,11 @@ async function seleccionarAccion(e) {
     postEquipo();
   }
   if (e.srcElement.innerText === "Borrar") {
-    deleteEquipos(e.srcElement.id);
+    const confirmar = prompt(`Seguro que quiere borrar a ${e.srcElement.id} ? (si/no)`);
+    if(confirmar === "si"){
+      deleteEquipos(e.srcElement.id);
+    }
+    
   }
 }
 
