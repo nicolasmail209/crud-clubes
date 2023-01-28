@@ -1,5 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
+
+const multer  = require('multer')
+const upload = multer({ dest: './datos/team-crests' })
 const servicios = require("./servicios/servicios");
 const endpoints = require("./endpoints/endpoints");
 
@@ -10,7 +14,12 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use(express.text({ type: "*/*" }));
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+app.use(express.urlencoded());
+
+//app.use(express.text({ type: "*/*" }));
 
 app.get("/equipos", (req, res) => {
   endpoints.getEquipos(req, res);
@@ -24,7 +33,9 @@ app.get("/equipos/:tla", (req, res) => {
   endpoints.getEquipo(req, res);
 });
 
-app.post("/equipos/equipo", (req, res) => {
+app.post("/equipos/equipo", upload.single('imagen'), (req, res, next) => {
+  console.log("aqui");
+  console.log(req.body);
   endpoints.postEquipo(req, res);
 });
 
