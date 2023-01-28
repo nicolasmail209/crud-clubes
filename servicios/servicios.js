@@ -5,6 +5,7 @@ const leerArchivoPromisificada = util.promisify(fs.readFile);
 const escribirArchivoPromisificada = util.promisify(fs.writeFile);
 const borrarArchivoPromisificada = util.promisify(fs.unlink);
 const listarDirectorioPromisificada = util.promisify(fs.readdir);
+const renombrarArchivoPromisificada = util.promisify(fs.rename);
 
 async function leerArchivo(equiposJSON) {
   try {
@@ -32,6 +33,16 @@ async function borrarArchivo(equiposJSON) {
     return;
   } catch (err) {
     console.log("Hubo un error en la funcion borrarArchivo " + err);
+    throw err;
+  }
+}
+
+async function renombrarArchivo(rutaVieja, rutaNueva){
+  try{
+    await renombrarArchivoPromisificada(rutaVieja, rutaNueva);
+    return;
+  }catch (err) {
+    console.log("Hubo un error en la funcion renombrarArchivo " + err);
     throw err;
   }
 }
@@ -77,5 +88,6 @@ module.exports = {
   leerArchivo,
   escribirArchivo,
   borrarArchivo,
+  renombrarArchivo,
   actualizarTabla,
 };
