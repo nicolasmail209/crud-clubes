@@ -43,6 +43,14 @@ async function getEquipo(req, res) {
 
 async function postEquipo(req, res) {
   try {
+    if("file" in req){
+    await servicios.renombrarArchivo(`datos/team-crests/${req.file.filename}`, `datos/team-crests/${req.body.tla}.png`)
+    await servicios.actualizarTabla("datos/equipos");
+    res.redirect('http://localhost:5500/front-end/');
+    }
+    else{
+      console.log("estos");
+      console.log(req.body.name);
     const equipo = {
       id: req.body.id,
       area: req.body.area,
@@ -50,7 +58,7 @@ async function postEquipo(req, res) {
       name: req.body.name,
       shortName: req.body.shortName,
       tla: req.body.tla,
-      crestUrl: req.body.crestUrl,
+      crestUrl: `team-crests/${req.body.tla}.png`,
       address: req.body.address,
       phone: req.body.phone,
       website: req.body.website,
@@ -61,7 +69,7 @@ async function postEquipo(req, res) {
       squad: req.body.squad,
       lastUpdated: req.body.lastUpdated,
     };
-
+    console.log(equipo.name);
     const equipoCadena = JSON.stringify(equipo);
     await servicios.escribirArchivo(
       `datos/equipos/${equipo.tla}.json`,
@@ -69,6 +77,7 @@ async function postEquipo(req, res) {
     );
     await servicios.actualizarTabla("datos/equipos");
     res.end(equipoCadena);
+    }
   } catch (err) {
     res.status(500);
     res.end("Hubo un error en el servidor");
