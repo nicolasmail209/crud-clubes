@@ -1,3 +1,4 @@
+import { getEquipos } from './getDeleteEquipos.js';
 const competencias = [];
 const jugadores = [];
 let contadorCompetencias = 0;
@@ -26,6 +27,13 @@ function agregarCompetencia(e) {
   $areaNameInput.id = "competenciaareaName" + contadorCompetencias;
   $li.appendChild($areaNameLabel);
   $li.appendChild($areaNameInput);
+
+  const $nameLabel = document.createElement("label");
+  $nameLabel.innerText = "name";
+  const $nameInput = document.createElement("input");
+  $nameInput.id = "competencianame" + contadorCompetencias;
+  $li.appendChild($nameLabel);
+  $li.appendChild($nameInput);
 
   const $codeLabel = document.createElement("label");
   $codeLabel.innerText = "code";
@@ -118,6 +126,46 @@ function crearFormularioPost() {
   agregarLi("shortName");
   agregarLi("tla");
   agregarLi("crestUrl");
+
+  {/* <form action="/profile" method="post" enctype="multipart/form-data">
+  <input type="file" name="avatar" />
+  </form> 
+var f = document.createElement("form");
+f.setAttribute('method',"post");
+f.setAttribute('action',"submit.php");
+
+var i = document.createElement("input"); //input element, text
+i.setAttribute('type',"text");
+i.setAttribute('name',"username");
+
+var s = document.createElement("input"); //input element, Submit button
+s.setAttribute('type',"submit");
+s.setAttribute('value',"Submit");
+
+
+
+*/}
+  const $formularioImagen = document.createElement("form");
+  $formularioImagen.id = "formularioImagen";
+  $formularioImagen.setAttribute("action", "http://localhost:8080/equipos/equipo");
+  $formularioImagen.setAttribute("method", "post");
+  $formularioImagen.setAttribute("enctype", "multipart/form-data");
+
+  const $agregarImagenButton = document.createElement("input");
+  $agregarImagenButton.innerText = "Agregar imagen";
+  $agregarImagenButton.type = "file";
+  $agregarImagenButton.id = "imagen";
+  $agregarImagenButton.name = "imagen";
+
+  const $submitButton = document.createElement("button");
+  $submitButton.type = "submit";
+
+  const $agregarImagenLi = document.createElement("li");
+  $formularioImagen.appendChild($agregarImagenButton);
+  $formularioImagen.appendChild($submitButton);
+  $agregarImagenLi.appendChild($formularioImagen);
+  $formularioPost.appendChild($agregarImagenLi);
+
   agregarLi("address");
   agregarLi("phone");
   agregarLi("website");
@@ -133,9 +181,11 @@ function crearFormularioPost() {
   $agregarJugadorButton.onclick = agregarJugador;
   $agregarJugadorLi.appendChild($agregarJugadorButton);
   $formularioPost.appendChild($agregarJugadorLi);
+
+  agregarLi("lastUpdated");
 }
 
-function agregarEquipo() {
+async function agregarEquipo() {
   const equipo = {
     id: null,
     area: { id, name },
@@ -147,8 +197,12 @@ function agregarEquipo() {
   const $datosInput = document.querySelectorAll("input");
   console.log($datosInput);
   for (let i = 0; i < $datosInput.length; i++) {
-    equipo[$datosInput[i].id] = $datosInput[i].value;
+    //equipo[$datosInput[i].id] = $datosInput[i].value;
 
+    /* if($datosInput[i].id === "imagen"){
+      console.log("entro");
+      continue;
+    } */
     if ($datosInput[i].id === "areaId") {
       equipo.area.id = $datosInput[i].value;
       console.log("entro");
@@ -158,6 +212,7 @@ function agregarEquipo() {
     }
     if (/^competencia/.test($datosInput[i].id)) {
       while (/^competencia/.test($datosInput[i].id)) {
+        //while (i < ($datosInput.length - 1)) {
         const competencia = {
           id,
           area: { id, name },
@@ -178,6 +233,7 @@ function agregarEquipo() {
         //console.log(equipo.activeCompetitions);
       }
     }
+    
      if (/^jugador/.test($datosInput[i].id)) {
        while (i < ($datosInput.length - 1)) {
         
@@ -203,9 +259,11 @@ function agregarEquipo() {
         equipo.squad.push(jugador); 
       } 
     } 
-    
-    //equipo[$datosInput[i].id] = $datosInput[i].value;
+    console.log("valor de i " + i);
+    console.log(equipo);
+    equipo[$datosInput[i].id] = $datosInput[i].value;
   }
+  console.log(equipo);
   if("competenciaid0" in equipo){
     delete equipo["competenciaid0"];
   }
@@ -218,13 +276,18 @@ function agregarEquipo() {
   if("areaName" in equipo){
     delete equipo["areaName"];
   }
-  enviarDatos(equipo);
+  if("imagen" in equipo){
+    delete equipo["imagen"];
+  }
+  console.log(equipo);
+  await enviarDatos(equipo);
   //console.log(equipo);
-  
+  enviarImagen(equipo.tla);
 }
 
 async function enviarDatos(equipo) {
   const datos = equipo;
+
   console.log(datos);
 
   fetch("http://localhost:8080/equipos/equipo", {
@@ -237,10 +300,27 @@ async function enviarDatos(equipo) {
     .then((response) => response.json())
     .then((data) => {
       console.log("Success:", data);
+      //enviarImagen();
     })
     .catch((error) => {
       console.error("Error:", error);
     });
+}
+
+async function enviarImagen(tla){
+  if(document.querySelector("#imagen").value !== ""){
+  const $input = document.createElement("input");
+  $input.type = "text";
+  $input.value = tla;
+  $input.name = "tla";
+  document.querySelector("#formularioImagen").appendChild($input);
+  document.querySelector("#formularioImagen").submit();
+  }else{
+    window.location.replace("http://localhost:5500/front-end/");
+  }
+  
+  
+  
 }
 
 export { crearFormularioPost };
