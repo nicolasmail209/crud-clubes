@@ -44,6 +44,21 @@ async function getEquipos() {
 async function deleteEquipos(tla) {
   const data = { tla: tla };
 
+  function limpiarListaEquipo() {
+    const elementos = document.querySelectorAll("#listaEquipo li");
+    elementos.forEach((elemento) => {
+      elemento.remove();
+    });
+  }
+  function limpiarFormularioPost() {
+    const elementos = document.querySelectorAll("#formularioPost li");
+    elementos.forEach((elemento) => {
+      elemento.remove();
+    });
+  }
+  limpiarListaEquipo();
+  limpiarFormularioPost();
+
   fetch("http://localhost:8080/equipos", {
     method: "DELETE",
     headers: {
