@@ -44,12 +44,15 @@ async function getEquipo(req, res) {
 async function postEquipo(req, res) {
   try {
     if("file" in req){
-    await servicios.renombrarArchivo(`datos/team-crests/${req.file.filename}`, `datos/team-crests/${req.body.tla}.png`)
+      console.log("multer post");
+      //await servicios.borrarArchivo(`datos/team-crests/${equipo.tla}.json`);
+      //`datos/team-crests/${req.body.tla}.png`
+    await servicios.renombrarArchivo(`datos/team-crests/${req.file.filename}`, `datos/team-crests/${req.body.tla}-crest.png`)
     await servicios.actualizarTabla("datos/equipos");
     res.redirect('http://localhost:5500/front-end/');
     }
     else{
-      console.log("estos");
+      console.log("post");
       console.log(req.body.name);
     const equipo = {
       id: req.body.id,
@@ -58,7 +61,7 @@ async function postEquipo(req, res) {
       name: req.body.name,
       shortName: req.body.shortName,
       tla: req.body.tla,
-      crestUrl: `team-crests/${req.body.tla}.png`,
+      crestUrl: `team-crests/${req.body.tla}-crest.png`,
       address: req.body.address,
       phone: req.body.phone,
       website: req.body.website,
@@ -87,6 +90,14 @@ async function postEquipo(req, res) {
 
 async function putEquipo(req, res) {
   try {
+    if("file" in req){
+      console.log("multer put");
+      await servicios.renombrarArchivo(`datos/team-crests/${req.file.filename}`, `datos/team-crests/${req.body.tla}.png`)
+      await servicios.actualizarTabla("datos/equipos");
+      console.log("file");
+      res.redirect('http://localhost:5500/front-end/');}
+    else{
+      console.log("put");
     const equipo = {
       id: req.body.id,
       area: req.body.area,
@@ -105,11 +116,11 @@ async function putEquipo(req, res) {
       squad: req.body.squad,
       lastUpdated: req.body.lastUpdated,
     };
-
+    console.log(equipo.tla);
     let equipoCadena = await servicios.leerArchivo(
       `datos/equipos/${equipo.tla}.json`
     );
-
+      
     const equipoObjeto = JSON.parse(equipoCadena);
     for (const key in equipoObjeto) {
       equipoObjeto[key] = equipo[key];
@@ -121,6 +132,7 @@ async function putEquipo(req, res) {
     );
     await servicios.actualizarTabla("datos/equipos");
     res.end(equipoCadena);
+    }
   } catch (err) {
     res.status(500);
     res.end("Hubo un error en el servidor");
