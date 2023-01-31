@@ -34,12 +34,12 @@ app.get("/equipos/:tla", (req, res) => {
 });
 
 app.post("/equipos/equipo", upload.single('imagen'), (req, res, next) => {
-  console.log("aqui");
-  console.log(req.body);
+  console.log(req.file);
   endpoints.postEquipo(req, res);
 });
 
-app.put("/equipos/equipo", (req, res) => {
+app.put("/equipos/equipo", upload.single("imagen"), (req, res, next) => {
+  console.log(req.file);
   endpoints.putEquipo(req, res);
 });
 
